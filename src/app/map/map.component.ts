@@ -45,7 +45,7 @@ export class MapComponent {
   }
   
   private initPostalCodesLayer() {
-    const stateLayer = geoJSON(this.postalCodes, {
+    const postalCodesLayer = geoJSON(this.postalCodes, {
       style: (feature) => ({
         weight: 3,
         opacity: 0.5,
@@ -61,7 +61,8 @@ export class MapComponent {
       )
     });
 
-    this.map.addLayer(stateLayer);
+    this.map.addLayer(postalCodesLayer);
+    postalCodesLayer.bringToBack(); //moves layer to background
   }
 
   ngAfterViewInit(): void {
