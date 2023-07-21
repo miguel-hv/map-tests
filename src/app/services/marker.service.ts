@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CircleMarker, Map, Marker } from 'leaflet';
+import { PopupService } from './popup.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ export class MarkerService {
     return 20 * (val / maxVal);
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private popupService: PopupService
+  ) { }
 
   makeCityMarkers(map: Map): void { 
     this.http.get(this.cities).subscribe((res: any) => {
@@ -38,6 +42,8 @@ export class MarkerService {
             radius: MarkerService.scaledRadius(c.properties.population, maxPop)
           });
         
+          circle.bindPopup(this.popupService.makeCityPopup(c.properties));
+
         circle.addTo(map);
       }
     });
