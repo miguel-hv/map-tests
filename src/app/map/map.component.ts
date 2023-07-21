@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Icon, Map, Marker, TileLayer } from 'leaflet';
+import { Icon, Map, Marker, TileLayer, geoJSON } from 'leaflet';
 import { MarkerService } from '../services/marker.service';
+import { ShapeService } from '../services/shape.service';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -24,6 +25,7 @@ Marker.prototype.options.icon = iconDefault;
 })
 export class MapComponent {
   private map!:Map;
+  private postalCodes!: any;
 
   private initMap(): void {
     this.map = new Map('map', {
@@ -39,13 +41,61 @@ export class MapComponent {
     tiles.addTo(this.map);
   }
 
-  constructor(private markerService: MarkerService) { 
+  constructor(private markerService: MarkerService, private shapeService: ShapeService) { 
+  }
+  
+  private initPostalCodesLayer() {
+    const stateLayer = geoJSON(this.postalCodes, {
+      style: (feature) => ({
+        weight: 3,
+        opacity: 0.5,
+        color: '#008f68',
+        fillOpacity: 0.25,
+        fillColor: '#52e92c00'
+      }),
+      onEachFeature: (feature, layer) => (
+        layer.on({
+          mouseover: (e) => (this.highlightFeature(e)),
+          mouseout: (e) => (this.resetFeature(e)),
+        })
+      )
+    });
+
+    this.map.addLayer(stateLayer);
   }
 
   ngAfterViewInit(): void {
     this.initMap();
     // this.markerService.makeCityMarkers(this.map);
     this.markerService.makeCityCircleMarkers(this.map);
+    this.shapeService.getPostalCodesShapes().subscribe(postalCodes => {
+      this.postalCodes = postalCodes;
+      this.initPostalCodesLayer();
+    });
+  }
+
+  private highlightFeature(e:any){
+    const layer = e.target;
+  
+    layer.setStyle({
+      weight: 10,
+      opacity: 1.0,
+      color: '#DFA612',
+      fillOpacity: 1.0,
+      fillColor: '#FAE042'
+    });
+  }
+  
+  private resetFeature(e:any) {
+    const layer = e.target;
+  
+    layer.setStyle({
+      weight: 3,
+      opacity: 0.5,
+      color: '#008f68',
+      fillOpacity: 0.8,
+      fillColor: '#52e92c00'
+    });
   }
 
 }

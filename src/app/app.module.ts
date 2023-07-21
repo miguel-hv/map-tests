@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { MarkerService } from './services/marker.service';
 import { PopupService } from './services/popup.service';
+import { ShapeService } from './services/shape.service';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { PopupService } from './services/popup.service';
   ],
   providers: [
     MarkerService, 
-    PopupService
+    PopupService,
+    ShapeService
   ],
   bootstrap: [AppComponent]
 })
