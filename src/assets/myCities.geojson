@@ -1,0 +1,50 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -3.7033,
+            40.4169
+          ]
+        },
+        "properties": {
+          "state": "Madrid",
+          "name": "Madrid",
+          "population": 6211000
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            2.1769,
+            41.3825
+          ]
+        },
+        "properties": {
+          "state": "Cataluña",
+          "name": "Barcelona",
+          "population": 4800000
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -5.9900,
+            37.2400
+          ]
+        },
+        "properties": {
+          "state": "Andalucía",
+          "name": "Sevilla",
+          "population": 1100000
+        }
+      }
+    ]
+}
